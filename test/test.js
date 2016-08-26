@@ -5,7 +5,7 @@
 var request = require('supertest'), should = require('should'), express = require('express'), bodyParser = require('body-parser'),
 app = express(), _ = require('lodash'), async = require('async'), smtp = require('smtp-tester'),
 r = request(app), mail, fs = require('fs'),
-activator = require('../lib/activator'), templates = __dirname+'/resources',
+activator = require('../lib/activator')(), templates = __dirname+'/resources',
 mailer = require('nodemailer'),
 USERS = {
 	"1": {id:"1",childObject:{id:"1"},email:"me@you.com",password:"1234"}
@@ -51,7 +51,7 @@ userModel = {
 			cb(404);
 		}
 	}
-}, 
+},
 reset = function () {
 	users = _.cloneDeep(USERS);
 	if (mail && mail.removeAll) {
@@ -171,7 +171,7 @@ completeResetHandler = function (req,res,next) {
 	// the header is not normally set, so we know we incurred the handler
 	res.set("activator","completeResetHandler");
 	res.status(req.activator.code).send(req.activator.message);
-}, 
+},
 setLang = function (req,res,next) {
 	if (lang) {
 		req.lang = lang;
